@@ -275,6 +275,16 @@
             <p class="subtitle">Sophomore Year Enhanced</p>
         </header>
 
+        <div class="panel" style="margin-bottom: 1.5rem;">
+            <h2>Data Sync</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <button onclick="exportData()" style="background: #00d4ff; color: #000; border: none; padding: 12px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 1em;">📥 Export Data</button>
+                <button onclick="document.getElementById('importFile').click()" style="background: #00d4ff; color: #000; border: none; padding: 12px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 1em;">📤 Import Data</button>
+            </div>
+            <input type="file" id="importFile" style="display: none;" accept=".json" onchange="importData(event)">
+            <p style="font-size: 0.9em; color: #666; margin-top: 1rem;">Export your data as a file, then import it on another device to sync.</p>
+        </div>
+
         <div class="grid">
             <!-- Chaos Factor -->
             <div class="panel">
@@ -566,6 +576,51 @@
             `;
             
             document.getElementById('eventResult').classList.add('active');
+        }
+
+        function exportData() {
+            const data = {
+                characters,
+                threads,
+                cf,
+                exportDate: new Date().toISOString()
+            };
+            const json = JSON.stringify(data, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `mythic-gm-data-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            alert('Data exported! Download the file and import it on another device.');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    characters = data.characters || [];
+                    threads = data.threads || [];
+                    cf = data.cf || 5;
+                    saveData();
+                    updateDisplay();
+                    alert('Data imported successfully!');
+                } catch (err) {
+                    alert('Error importing data. Make sure it\'s a valid Mythic GME 2 export file.');
+                    console.error(err);
+                }
+            };
+            reader.readAsText(file);
+            
+            // Reset the file input so you can import the same file again if needed
+            event.target.value = '';
         }
 
         loadData();
