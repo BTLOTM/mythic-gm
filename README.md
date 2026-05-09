@@ -13,6 +13,8 @@ Integration with any tabletop RPG system
 This tool implements the core Scene Transition, Fate Question, and Random Event systems from the rulebook.
 **Get the full rulebook**: Visit [Word Mill Games](https://www.wordmillgames.com/)
 
+[Base GME2 Emulator](https://btlotm.github.io/mythic-gm/mythic_gme2_base.html)
+
 License
 This is a fan-made companion tool for Mythic Game Master Emulator 2nd Edition. Mythic GME is published by Word Mill Games. Please refer to Word Mill Games' website for official rules and licensing information.
 
