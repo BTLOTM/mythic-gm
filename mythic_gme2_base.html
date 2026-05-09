@@ -677,9 +677,14 @@
         loadData();
         
         // Save campaign name when it changes
-        document.getElementById('campaignName').addEventListener('input', function() {
-            saveData();
-        });
+        setTimeout(function() {
+            const campaignInput = document.getElementById('campaignName');
+            if (campaignInput) {
+                campaignInput.addEventListener('input', function() {
+                    saveData();
+                });
+            }
+        }, 100);
     </script>
 </body>
 </html>
