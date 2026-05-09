@@ -397,7 +397,8 @@
 
         function saveData() {
             try {
-                const data = { characters, threads, cf, lastSync: new Date().toISOString() };
+                const campaignName = document.getElementById('campaignName').value || 'Untitled Campaign';
+                const data = { characters, threads, cf, campaignName, lastSync: new Date().toISOString() };
                 localStorage.setItem('mythic_gm_data', JSON.stringify(data));
             } catch (e) {
                 console.log('Save error');
@@ -412,6 +413,7 @@
                     characters = data.characters || [];
                     threads = data.threads || [];
                     cf = data.cf || 5;
+                    document.getElementById('campaignName').value = data.campaignName || 'Sophomore Year Enhanced';
                     updateDisplay();
                 }
             } catch (e) {
@@ -673,6 +675,11 @@
         }
 
         loadData();
+        
+        // Save campaign name when it changes
+        document.getElementById('campaignName').addEventListener('input', function() {
+            saveData();
+        });
     </script>
 </body>
 </html>
